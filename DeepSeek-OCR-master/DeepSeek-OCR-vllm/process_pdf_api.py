@@ -88,7 +88,7 @@ class DeepSeekOCRProcessor_API:
             model=model_path,
             dtype="float16",
             hf_overrides={"architectures": ["DeepseekOCRForCausalLM"]},
-            block_size=256,
+            block_size=32,
             enforce_eager=False,
             trust_remote_code=True,
             max_model_len=8192,
