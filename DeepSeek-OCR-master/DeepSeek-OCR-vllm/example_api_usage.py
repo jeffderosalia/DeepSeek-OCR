@@ -11,7 +11,7 @@ def example_basic_usage():
     Basic example: Load a PDF file and convert to markdown.
     """
     # Load PDF file into BytesIO
-    with open('/Users/jeff4work/Downloads/427424.pdf', 'rb') as f:
+    with open('/content/427424.pdf', 'rb') as f:
         pdf_bytes = BytesIO(f.read())
 
     # Process the PDF
