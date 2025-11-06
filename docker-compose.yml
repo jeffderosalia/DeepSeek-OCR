@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  deepseek-ocr:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: deepseek-ocr:latest
+    container_name: deepseek-ocr
+
+    # GPU configuration - requires nvidia-docker
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+    # Environment variables
+    environment:
+      - CUDA_VISIBLE_DEVICES=0
+      - TRITON_PTXAS_PATH=/usr/local/cuda-11.8/bin/ptxas
+      - VLLM_USE_V1=0
+
+    # Volume mounts
+    volumes:
+      # Mount input/output directories
+      - ./input:/app/input
+      - ./output:/app/output
+      # Mount code for development (optional - comment out for production)
+      - ./DeepSeek-OCR-master:/app/DeepSeek-OCR-master
+      # Cache HuggingFace models to avoid re-downloading
+      - huggingface-cache:/root/.cache/huggingface
+
+    # Working directory
+    working_dir: /app/DeepSeek-OCR-master/DeepSeek-OCR-vllm
+
+    # Keep container running for interactive use
+    stdin_open: true
+    tty: true
+
+    # Shared memory size (important for PyTorch)
+    shm_size: '16gb'
+
+    # Command to run (override with docker-compose run)
+    command: /bin/bash
+
+volumes:
+  huggingface-cache:
+    driver: local
