@@ -86,6 +86,7 @@ class DeepSeekOCRProcessor_API:
         # Initialize vLLM model
         self.llm = LLM(
             model=model_path,
+            dtype="float16",
             hf_overrides={"architectures": ["DeepseekOCRForCausalLM"]},
             block_size=256,
             enforce_eager=False,
