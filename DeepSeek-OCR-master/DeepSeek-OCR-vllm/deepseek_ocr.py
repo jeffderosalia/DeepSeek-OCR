@@ -384,7 +384,8 @@ class DeepseekOCRForCausalLM(nn.Module, SupportsMultiModal, SupportsPP):
         with torch.no_grad():
             for jdx in range(images_spatial_crop.size(0)):
                 # with torch.set_grad_enabled(False):
-                patches = images_crop[jdx][0].to(torch.bfloat16) # batch_size = 1
+                #BFLOAT    
+                patches = images_crop[jdx][0].to(torch.float16) # batch_size = 1
                 image_ori = pixel_values[jdx]
                 crop_shape = images_spatial_crop[jdx][0]
 
@@ -471,8 +472,9 @@ class DeepseekOCRForCausalLM(nn.Module, SupportsMultiModal, SupportsPP):
         
 
         # image_input: [pixel_values, images_crop, images_spatial_crop]
-    
-        pixel_values = image_input[0].to(torch.bfloat16)
+
+        #BFLOAT    
+        pixel_values = image_input[0].to(torch.float16)
         # print(image_input[1][0].shape)
         # print(type(image_input[1]))
         # exit()
